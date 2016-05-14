@@ -47,6 +47,12 @@ displayed here, as I didn't feel like making pngs of the output.
 
 ```
 
+#### Upcoming game line:
+```
+<@Drageon> .mlb atl
+<@sukores> Atlanta (8-26) @ Kansas City (17-18) 7:15PM :: Foltynewicz RHP (5.06/0-1) vs Gee RHP (2.61/0-0) :: TV: FSSO, MLBN/MLBN, FSKC
+```
+
 #### Game in progress line:
 ```
 <@Drageon> .mlb hou
