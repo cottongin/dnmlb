@@ -1,0 +1,5 @@
+git+https://github.com/ProgVal/Limnoria.git
+lxml==3.4.4
+simplejson==3.6.5
+urllib3==1.9.1
+pytz==2012c

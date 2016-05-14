@@ -8,10 +8,32 @@ This plugin is based off of the work by
 [hardball](https://github.com/reticulatingspline/Hardball) and
 [scores](https://github.com/reticulatingspline/Scores) plugins.
 
+## Installation
+
+Requires Python 2.7+ (developed on 2.7.8, older versions of 2.7 might not work)
+and a working Limnoria bot.
+
+Clone this repo and then install the required Python modules via pip:
+
+**Note:** You can omit `--user` from pip if you wish to install the modules
+globally.
+
+
+```
+~ $ cd ~/supybot/plugins
+~/supybot/plugins $ git clone https://github.com/drageon/dnmlb
+~/supybot/plugins $ pip install --user -r requirements.txt
+
+Then enable the module:
+
+```
+<@Drageon> .load dnmlb
+<@sukores> 10-4
+```
+
 ## Usage
 
-Load plugin like any other supybot plugin then invoke via `.mlb` or
-`.mlbstandings`.
+Examples of usage below.
 
 **Note:** control codes are used for color + bold/underline that is not
 displayed here, as I didn't feel like making pngs of the output.
