@@ -1197,29 +1197,29 @@ class dnmlb(callbacks.Plugin):
 
     """ {{{ Display mlb standings. 
     """
-    def mlbstandings(self, irc, msg, args):
-      """ <nl [east|central|west]|al [east|central|west]>
-      Get mlb standings.
+    #def mlbstandings(self, irc, msg, args):
+    #  """ <nl [east|central|west]|al [east|central|west]>
+    #  Get mlb standings.
 
-      league, or league + division is required.
+    #  league, or league + division is required.
 
-      Ex: .mlbstandings nl OR .mlbstanding nl east
-      """
-      self.log.info("mlbstandings: {0} called by {1}".format(args, msg))
-      if len(args) == 0:
-        results = "ERROR: Missing argument, see .help mlbstandings for usage."
-      else:
-        results = self._parseargsstandings(args)
+    #  Ex: .mlbstandings nl OR .mlbstanding nl east
+    #  """
+    #  self.log.info("mlbstandings: {0} called by {1}".format(args, msg))
+    #  if len(args) == 0:
+    #    results = "ERROR: Missing argument, see .help mlbstandings for usage."
+    #  else:
+    #    results = self._parseargsstandings(args)
  
       # results are lists within a list
-      if type(results) == str:     
-        irc.reply(results)
-      else:
-        for r1 in results:
-          if len(r1) > 1:
-            irc.reply(' ')
-          for r in r1:
-            irc.reply(r)
+    #  if type(results) == str:     
+    #    irc.reply(results)
+    #  else:
+    #    for r1 in results:
+    #      if len(r1) > 1:
+    #        irc.reply(' ')
+    #      for r in r1:
+    #        irc.reply(r)
 
     """" }}} """
 
