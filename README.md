@@ -23,6 +23,7 @@ globally.
 ~ $ cd ~/supybot/plugins
 ~/supybot/plugins $ git clone https://github.com/drageon/dnmlb
 ~/supybot/plugins $ pip install --user -r requirements.txt
+```
 
 Then enable the module:
 
