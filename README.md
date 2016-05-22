@@ -102,6 +102,7 @@ displayed here, as I didn't feel like making pngs of the output.
 ## TODO:
 * Fix parsing of time and date units ex: `.mlb tomorrow atl` works, but not
   `.mlb atl tomorrow`.
+* Add in `.mlb inp` to just show in progress games.
 * Clean up commandline parsing.
 * Add current batter batting average to `AB` line.
 * Clean up info logging. A lot of it exists just for debugging when things go
