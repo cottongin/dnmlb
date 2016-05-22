@@ -1220,8 +1220,6 @@ class dnmlb(callbacks.Plugin):
         irc.reply(results)
       else:
         for r1 in results:
-          if len(r1) > 1:
-            irc.reply(' ')
           for r in r1:
             irc.reply(r)
 
