@@ -1134,11 +1134,15 @@ class dnmlb(callbacks.Plugin):
       if (len(args) > 2):
         result = "ERROR: Too many arguments, see .help mlbstandings for usage"
         return result
-      
-      if (len(args) == 1) or (len(args) == 2):
+
+      if (len(args) != 2):
+        result = 'ERROR: Specify a league + divison. Use .help mlbstandings for syntax'
+        return result
+
+      if (len(args) == 2):
         arg1 = str(args[0]).lower()
         if (arg1 == 'all'):
-          result = 'ERROR: You can only do one league at a time'
+          result = 'ERROR: You can only do one league + division at a time'
           return result
         self.log.info('_parseargsstandings: arg1: %s self.leagues: %s', arg1, type(self.leagues))
         searchleagues = self._searchlist(arg1, self.leagues)
@@ -1198,12 +1202,12 @@ class dnmlb(callbacks.Plugin):
     """ {{{ Display mlb standings. 
     """
     def mlbstandings(self, irc, msg, args):
-      """ <nl [east|central|west]|al [east|central|west]>
+      """ <nl <east|central|west>|al <east|central|west>>
       Get mlb standings.
 
       league, or league + division is required.
 
-      Ex: .mlbstandings nl OR .mlbstanding nl east
+      Ex: .mlbstandings nl east OR .mlbstandings al central
       """
       self.log.info("mlbstandings: {0} called by {1}".format(args, msg))
       if len(args) == 0:
