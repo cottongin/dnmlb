@@ -1205,7 +1205,7 @@ class dnmlb(callbacks.Plugin):
       """ <nl <east|central|west>|al <east|central|west>>
       Get mlb standings.
 
-      league, or league + division is required.
+      league + division is required.
 
       Ex: .mlbstandings nl east OR .mlbstandings al central
       """
