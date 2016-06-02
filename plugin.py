@@ -177,6 +177,8 @@ class dnmlb(callbacks.Plugin):
           feed = '--'
         elif 'out-of-market' in feed:
           feed = feed.replace(' (out-of-market only)','')
+        elif 'Fox  Sports Sun' in feed:
+          feed = 'FSSun'
         else:
           feed = feed
 
