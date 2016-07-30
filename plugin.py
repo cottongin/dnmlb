@@ -951,12 +951,12 @@ class dnmlb(callbacks.Plugin):
         output = []
         playoffs = False
 
-        date = self._getdate()
-        # If october, we're in playoff run season.
-        if (date[1] == 10):
+        date = self._getdate().split(' ')
+        # If July, start showing wildcard stuff.
+        if (int(date[1]) >= 7):
           playoffs = True
 
-        self._log(lt, "date: %s playoffs: %s" % (date, playoffs))
+        self._log(lt, "date: %s playoffs: %s" % (date[1], playoffs))
 
         if (league == 'al'):  page_path = '//section[@id="league-103"]/table/tbody'
         if (league == 'nl'):  page_path = '//section[@id="league-104"]/table/tbody'
