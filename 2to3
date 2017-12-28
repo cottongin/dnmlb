@@ -1,0 +1,155 @@
+--- ./__init__.py	(original)
++++ ./__init__.py	(refactored)
+@@ -20,8 +20,8 @@
+ # This is a url where the most recent plugin package can be downloaded.
+ __url__ = ''
+ 
+-import config
+-import plugin
++from . import config
++from . import plugin
+ reload(config)
+ reload(plugin) # In case we're being reloaded.
+ # Add more reloads here if you add third-party modules and want them to be
+--- ./plugin.py	(original)
++++ ./plugin.py	(refactored)
+@@ -11,7 +11,7 @@
+ import supybot.ircutils as ircutils
+ import supybot.callbacks as callbacks
+ from supybot.i18n import PluginInternationalization, internationalizeDocstring
+-import commands
++import subprocess
+ 
+ _ = PluginInternationalization('dnmlb')
+ 
+@@ -233,7 +233,7 @@
+       """ {{{ Append add list of gids to dicts with team names """
+       def __add_gid_team(datadict, team, gid):
+         gids = []
+-        if datadict.has_key(team):
++        if team in datadict:
+           gids = datadict[team]
+         gids.append(gid)
+         datadict[team] = gids
+@@ -254,7 +254,7 @@
+     
+       #scoreboard_json = json.loads(scoreboard_json)
+       scoreboard_json = ast.literal_eval(scoreboard_json)
+-      if (scoreboard_json['data']['games'].has_key('game')):
++      if ('game' in scoreboard_json['data']['games']):
+         games = scoreboard_json['data']['games']['game']
+       else:
+         self.log.info('_getscoreboardinfo: no games found')
+@@ -352,12 +352,12 @@
+ 	    if (all_games[gid]['time'] == '3:33AM'):
+ 	      all_games[gid]['time'] = 'TBD'
+             # TV feeds.
+-            if game.has_key('broadcast'):
+-              if game['broadcast']['away'].has_key('tv'):
++            if 'broadcast' in game:
++              if 'tv' in game['broadcast']['away']:
+                 away_tv_feed = __buildtv(game['broadcast']['away']['tv'])
+               else:
+                 away_tv_feed = '--'
+-              if game['broadcast']['home'].has_key('tv'):
++              if 'tv' in game['broadcast']['home']:
+                 home_tv_feed = __buildtv(game['broadcast']['home']['tv'])
+               else:
+                 home_tv_feed = '--'
+@@ -467,7 +467,7 @@
+ 		    'beers': 'mil', 'brews': 'mil', 'shittsburgh': 'pit',
+ 		    'gigantes': 'sf', 'gnats': 'wsh', 'dbags': 'D-backs',
+                     'sfo': 'sf', 'doyers': 'Dodgers' }
+-      if term in alt_names.keys():
++      if term in list(alt_names.keys()):
+         term = alt_names[term]
+       try:
+         search_sources = [ games['away_team_cities'], games['away_team_abbrevs'],
+@@ -476,7 +476,7 @@
+         term = term.lower()
+         match_gid = []
+         for si in search_sources:
+-          for name, gid in si.iteritems():
++          for name, gid in si.items():
+             if term in name:
+               for g in gid:
+                 match_gid.append(g)
+@@ -565,7 +565,7 @@
+                 inning_state = game['inning_state'][0] + game['inning'] + ' ' + susp
+               elif (status == 'Delayed Start'):
+                 inning_state = self._yellow('DLY')
+-                if game.has_key('reason'):
++                if 'reason' in game:
+                   inning_state = '%s (%s)' % (inning_state, game['reason'])
+               else:
+                 inning_state = game['inning_state'][0] + game['inning']
+@@ -581,7 +581,7 @@
+             time = game['time']
+             line =  "%s @ %s %s |" % (away, home, time)
+           elif (status in self.postponed_status):
+-	    if game.has_key('status_ind') and (status != 'Postponed') and (status != 'Cancelled'):
++	    if 'status_ind' in game and (status != 'Postponed') and (status != 'Cancelled'):
+               away_score_data = int(game['away_score'])
+               home_score_data = int(game['home_score'])
+               # Operators don't work when irc colors are in use.
+@@ -595,7 +595,7 @@
+                 away = self._bold(away)
+               else:
+                 away_score = away_score_data
+-            if game.has_key('delay_reason'):
++            if 'delay_reason' in game:
+               line = "%s @ %s %s (%s) |" % (away, home, self._yellow('DLY'), game['delay_reason'])
+             elif (game['status_ind'] == 'IR'):
+               inning_state = game['inning_state'][0] + game['inning']
+@@ -685,7 +685,7 @@
+     """
+     def _printscore_inprogress(self, game):
+       lt = '_printscore_inprogress'
+-      print game['pitching_id']
++      print(game['pitching_id'])
+       gid = game['gid']
+       status = game['status']
+       away = game['away_team_city']
+@@ -810,21 +810,21 @@
+       lp_line = "%s (%s/%s)" % (lp['name'], lp['era'], lp['wl'])
+     
+       # If we have a saving pitcher, grab stats.
+-      if game.has_key('save_pitcher'):
++      if 'save_pitcher' in game:
+         sp = game['save_pitcher']
+         sp_line = "%s (%s/%s/%s)" % (sp['name'], sp['era'], sp['wl'], sp['sso'])
+       else:
+         sp_line = None
+     
+       # Deal with home runs.
+-      if game['away_hrs'].has_key('players'):
++      if 'players' in game['away_hrs']:
+         ahr = game['away_hrs']
+         ahrplayers = ' '.join(ahr['players'])
+         away_team_hr_line = "%s(%s): %s" % (self._stripf(away), ahr['total'], ahrplayers)
+       else:
+         away_team_hr_line = None
+     
+-      if game['home_hrs'].has_key('players'):
++      if 'players' in game['home_hrs']:
+         hhr = game['home_hrs']
+         hhrplayers = ' '.join(hhr['players'])
+         home_team_hr_line = "%s(%s): %s" % (self._stripf(home), hhr['total'], hhrplayers)
+@@ -853,7 +853,7 @@
+       else:
+         hr_line = None
+     
+-      if game.has_key('reason'):
++      if 'reason' in game:
+         reason = game['reason']
+       else:
+         reason = False
+@@ -881,7 +881,7 @@
+       hrec = game['home_team_wl']
+       # Kansas City (0-0) @ Chi White Sox (0-0) 1:10PM Postponed (Rain)
+       status_line = "%s (%s) @ %s (%s) %s %s" % (away, arec, home, hrec, game['time'], self._red(game['status']))
+-      if game.has_key('reason'):
++      if 'reason' in game:
+         status_line = "%s (%s)" % (status_line, game['reason'])
+ 
+       # If game in progress with a rain delay, do a long line status.
